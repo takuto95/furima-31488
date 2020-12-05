@@ -21,18 +21,17 @@
 
 ## items テーブル
 ## 商品情報
-| Column                   | Type       | Options    |
-| ------------------------ | ---------- | ---------- |
-| item_name                | string     | null:false |
-| item_explantion          | text       | null:false |
-| item_detail              | text       | null:false |
-| item_price               | integer    | null:false |
-| user                     | references |            |
-| item_category            | integer    |            |
-| item_sales_status        | integer    |            |
-| item_shipping_fee_status | integer    |            |
-| item_prefecture          | integer    |            |
-| item_scheduled_delivery  | integer    |            |
+| Column                      | Type       | Options    |
+| --------------------------- | ---------- | ---------- |
+| item_name                   | string     | null:false |
+| item_detail                 | text       | null:false |
+| item_price                  | integer    | null:false |
+| user                        | references |            |
+| item_category_id            | integer    |            |
+| item_sales_status_id        | integer    |            |
+| item_shipping_fee_status_id | integer    |            |
+| item_prefecture_id          | integer    |            |
+| item_scheduled_delivery_id  | integer    |            |
 
 ## items_Association
 - belongs_to :user
@@ -47,7 +46,7 @@
 | city          | string     | null:false |
 | house_number  | string     | null:false |
 | building_name | string     | 　　　　　　 |
-| phone_number  | integer    | null:false |
+| phone_number  | string     | null:false |
 | buyer         | references |            |
 
 ## orders_Association
