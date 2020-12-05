@@ -16,28 +16,27 @@
 | birthday           | date   | null:false             |
 
 ## users_Association
-- has_one :buyer
+- has_many :buyer
 - has_many :items
 
 ## items テーブル
 ## 商品情報
-| Column          | Type       | Options    |
-| --------------- | ---------- | ---------- |
-| image           | ActiveStorageで実装      |
-| item_name       | string     | null:false |
-| item_explantion | text       | null:false |
-| item_detail     | text       | null:false |
-| item_price      | integer    | null:false |
-| user            | references |            |
-| item_info_id    | integer    |            |
+| Column                   | Type       | Options    |
+| ------------------------ | ---------- | ---------- |
+| item_name                | string     | null:false |
+| item_explantion          | text       | null:false |
+| item_detail              | text       | null:false |
+| item_price               | integer    | null:false |
+| user                     | references |            |
+| item_category            | integer    |            |
+| item_sales_status        | integer    |            |
+| item_shipping_fee_status | integer    |            |
+| item_prefecture          | integer    |            |
+| item_scheduled_delivery  | integer    |            |
 
 ## items_Association
 - belongs_to :user
 - has_one :buyer
-
-## item_info_id
-## item_category/item_sales_status/item_shipping_fee_status/
-## item_prefecture/item_scheduled_delivery
 
 ## orders テーブル
 ## 注文者情報
@@ -48,6 +47,7 @@
 | city          | string     | null:false |
 | house_number  | string     | null:false |
 | building_name | string     | 　　　　　　 |
+| phone_number  | integer    | null:false |
 | buyer         | references |            |
 
 ## orders_Association
@@ -57,7 +57,6 @@
 ## 商品購入時の支払い金額情報
 | Column | Type       | Options    |
 | ------ | ---------- | ---------- |
-| order  | references | null:false |
 | item   | references | null:false |
 | user   | references | null:false |
 
