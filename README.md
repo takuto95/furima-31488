@@ -1,24 +1,65 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# テーブル設計
 
-Things you may want to cover:
+## users テーブル
+## ユーザ情報
+| Column             | Type   | Options                |
+| ------------------ | ------ | ---------------------- |
+| nickname           | string | null:false             |
+| email              | string | null:false,unipue:true |
+| encrypted_password | string | null:false             |
+| name_first         | string | null:false             |
+| name_last          | string | null:false             |
+| name_reading_first | string | null:false             |
+| name_reading_last  | string | null:false             |
+| birthday           | date   | null:false             |
 
-* Ruby version
+## users_Association
+- has_many :buyer
+- has_many :items
 
-* System dependencies
+## items テーブル
+## 商品情報
+| Column                 | Type       | Options    |
+| ---------------------- | ---------- | ---------- |
+| name                   | string     | null:false |
+| detail                 | text       | null:false |
+| item_price             | integer    | null:false |
+| user                   | references |            |
+| category_id            | integer    | null:false |
+| sales_status_id        | integer    | null:false |
+| shipping_fee_status_id | integer    | null:false |
+| prefecture_id          | integer    | null:false |
+| scheduled_delivery_id  | integer    | null:false |
 
-* Configuration
+## items_Association
+- belongs_to :user
+- has_one :buyer
 
-* Database creation
+## orders テーブル
+## 注文者情報
+| Column        | Type       | Options    |
+| ------------- | ---------- | ---------- |
+| postal_code   | string     | null:false |
+| prefecture_id | integer    | null:false |
+| city          | string     | null:false |
+| house_number  | string     | null:false |
+| building_name | string     | 　　　　　　 |
+| phone_number  | string     | null:false |
+| buyer         | references | null:false |
 
-* Database initialization
+## orders_Association
+- belongs_to :buyer
 
-* How to run the test suite
+## buyers テーブル
+## 商品購入時の支払い金額情報
+| Column | Type       | Options    |
+| ------ | ---------- | ---------- |
+| item   | references | null:false |
+| user   | references | null:false |
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## buyers_Association
+- belongs_to :item
+- has_one :order
+- belongs_to :user
