@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :prefecture do
-    id { 6 }
+    id { 2 }
   end
 end
