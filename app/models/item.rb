@@ -21,10 +21,13 @@ class Item < ApplicationRecord
     validates :scheduled_delivery_id
   end
 
-  validates :category_id, numericality: { other_than: 1 }
-  validates :sales_status_id, numericality: { other_than: 1 }
-  validates :shipping_fee_status_id, numericality: { other_than: 1 }
-  validates :prefecture_id, numericality: { other_than: 1 }
-  validates :scheduled_delivery_id, numericality: { other_than: 1 }
+  with_options numericality: { other_than: 1 } do
+  validates :category_id
+  validates :sales_status_id
+  validates :shipping_fee_status_id
+  validates :prefecture_id
+  validates :scheduled_delivery_id
+  end
+  
   validates :item_price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: 'is out of setting range' }
 end

@@ -40,8 +40,14 @@ RSpec.describe Item, type: :model do
       expect(@item.errors.full_messages).to include('Item price is invalid. Input half-width characters.')
     end
 
-    it 'item_priceは300~99999999の範囲でなければ保存できない' do
-      @item.item_price = '100'
+    it 'item_priceは299以下では保存できない' do
+      @item.item_price = 100
+      @item.valid?
+      expect(@item.errors.full_messages).to include('Item price is out of setting range')
+    end
+
+    it 'item_priceは10_000_000以下では保存できない' do
+      @item.item_price = 100000000
       @item.valid?
       expect(@item.errors.full_messages).to include('Item price is out of setting range')
     end
