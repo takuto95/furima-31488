@@ -14,7 +14,5 @@ FactoryBot.define do
     after(:build) do |i|
       i.image.attach(io: File.open('public/images/test_image.JPEG'), filename: 'test_image.JPEG')
     end
-    
-
   end
 end
