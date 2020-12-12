@@ -47,7 +47,7 @@ RSpec.describe Item, type: :model do
     end
 
     it 'item_priceは10_000_000以下では保存できない' do
-      @item.item_price = 100000000
+      @item.item_price = 100_000_000
       @item.valid?
       expect(@item.errors.full_messages).to include('Item price is out of setting range')
     end
