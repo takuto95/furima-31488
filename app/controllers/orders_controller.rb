@@ -2,16 +2,15 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :move_index, only: [:index]
   def index
-    @order = Order.new
+    @order = OrderBuyer.new
     @item = Item.find(params[:item_id])
   end
 
   def create
-    @order = Order.new(order_params)
-    binding.pry
-    if @order.valid?
+    @order_buyer = OrderBuyer.new(order_params)
+    if @order_buyer.valid?
       pay_item
-      @order.save
+      @order_buyer.save
       redirect_to root_path
     else
       redirect_to item_orders_path
@@ -20,7 +19,8 @@ class OrdersController < ApplicationController
 
   private
   def order_params
-    params.require(:order).permit(:postal_code,:prefecture_id,:city,:house_number,:building_name,:phone_number).merge(token: params[:token])
+    item = Item.find(params[:item_id])
+    params.require(:order_buyer).permit(:postal_code,:prefecture_id,:city,:house_number,:building_name,:phone_number).merge(token: params[:token],user_id: current_user.id,item_id: item.id)
   end
 
   def move_index
