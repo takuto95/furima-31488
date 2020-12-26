@@ -35,6 +35,12 @@ RSpec.describe OrderBuyer, type: :model do
       expect(@order_buyer.errors.full_messages).to include('Prefecture must be other than 1')
     end
 
+    it 'prefectureが空では保存できないこと' do
+      @order_buyer.prefecture_id = nil
+      @order_buyer.valid?
+      expect(@order_buyer.errors.full_messages).to include("Prefecture can't be blank")
+    end
+
     it 'cityが空では保存ができないこと' do
       @order_buyer.city = nil
       @order_buyer.valid?
