@@ -5,14 +5,29 @@ RSpec.describe OrderBuyer, type: :model do
     @order_buyer = FactoryBot.build(:order_buyer)
   end
 
+  context "保存ができること" do
   it 'すべての値が正しく入力されていれば保存ができること' do
     expect(@order_buyer).to be_valid
   end
+
+  it 'building_nameが空でも保存ができること' do
+    @order_buyer.building_name = nil
+    expect(@order_buyer).to be_valid
+  end
+ end
+
+ context '保存ができないこと' do
 
   it 'postal_codeが空では保存ができないこと' do
     @order_buyer.postal_code = nil
     @order_buyer.valid?
     expect(@order_buyer.errors.full_messages).to include("Postal code can't be blank")
+  end
+
+  it 'postal_codeがハイフン無しでは保存ができないこと' do
+    @order_buyer.postal_code = "12345678"
+    @order_buyer.valid?
+    expect(@order_buyer.errors.full_messages).to include("Postal code is invalid. Include hyphen(-)")
   end
 
   it 'prefectureが1では保存できないこと' do
@@ -33,11 +48,6 @@ RSpec.describe OrderBuyer, type: :model do
     expect(@order_buyer.errors.full_messages).to include("House number can't be blank")
   end
 
-  it 'building_nameが空でも保存ができること' do
-    @order_buyer.building_name = nil
-    expect(@order_buyer).to be_valid
-  end
-
   it 'phone_numberが空では保存ができないこと' do
     @order_buyer.phone_number = nil
     @order_buyer.valid?
@@ -50,9 +60,17 @@ RSpec.describe OrderBuyer, type: :model do
     expect(@order_buyer.errors.full_messages).to include('Phone number is invalid')
   end
 
+  it 'phone_numberが英数混合だと保存できないこと' do
+    @order_buyer.phone_number = '1111ssss'
+    @order_buyer.valid?
+    expect(@order_buyer.errors.full_messages).to include("Phone number is invalid")
+  end
+
   it 'tokenが空では登録ができないこと' do
     @order_buyer.token = nil
     @order_buyer.valid?
     expect(@order_buyer.errors.full_messages).to include("Token can't be blank")
+  end
+
   end
 end

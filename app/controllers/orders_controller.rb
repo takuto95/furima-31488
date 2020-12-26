@@ -28,8 +28,7 @@ class OrdersController < ApplicationController
   end
 
   def move
-    redirect_to root_path if @item.buyer.present?
-    return root_path if user_signed_in? && current_user.id == @item.user.id
+    return root_path if @item.buyer.present? || user_signed_in? && current_user.id == @item.user.id
   end
 
   def pay_item
