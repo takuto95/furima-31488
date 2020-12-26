@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
   end
 
   private
+
   def item_params
     @item = Item.find(params[:item_id])
   end
@@ -28,9 +29,7 @@ class OrdersController < ApplicationController
 
   def move
     redirect_to root_path if @item.buyer.present?
-    if user_signed_in? && current_user.id == @item.user.id
-      return  root_path
-    end
+    return root_path if user_signed_in? && current_user.id == @item.user.id
   end
 
   def pay_item
