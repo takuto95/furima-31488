@@ -15,8 +15,6 @@ const pay = () => {
 
     Payjp.createToken(card, function(status,response) {
       if (response.error){
-
-        console.log(response.error);
       }
       else{
         const token = response.id;
