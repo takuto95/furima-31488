@@ -1,9 +1,9 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :move_index, only: [:index]
+  before_action :item_params
+  before_action :move, only: [:index]
   def index
-    @order = OrderBuyer.new
-    @item = Item.find(params[:item_id])
+    @order_buyer = OrderBuyer.new
   end
 
   def create
@@ -13,24 +13,27 @@ class OrdersController < ApplicationController
       @order_buyer.save
       redirect_to root_path
     else
-      redirect_to item_orders_path
+      render :index
     end
   end
 
   private
-
-  def order_params
-    item = Item.find(params[:item_id])
-    params.require(:order_buyer).permit(:postal_code, :prefecture_id, :city, :house_number, :building_name, :phone_number).merge(token: params[:token], user_id: current_user.id, item_id: item.id)
+  def item_params
+    @item = Item.find(params[:item_id])
   end
 
-  def move_index
-    item = Item.find(params[:item_id])
-    redirect_to action: :index if user_signed_in? && current_user.id == item.user.id
+  def order_params
+    params.require(:order_buyer).permit(:postal_code, :prefecture_id, :city, :house_number, :building_name, :phone_number).merge(token: params[:token], user_id: current_user.id, item_id: @item.id)
+  end
+
+  def move
+    redirect_to root_path if @item.buyer.present?
+    if user_signed_in? && current_user.id == @item.user.id
+      return  root_path
+    end
   end
 
   def pay_item
-    @item = Item.find(params[:item_id])
     Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: @item.item_price,

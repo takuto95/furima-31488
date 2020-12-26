@@ -2,7 +2,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :items
-  has_many :buyer
+  has_many :buyers
 
   with_options presence: true do
     validates :nickname
