@@ -53,7 +53,6 @@ class ItemsController < ApplicationController
   end
 
   def move_index
-    redirect_to root_path if @item.buyer.present?
-    redirect_to action: :index unless user_signed_in? && current_user.id == @item.user.id
+    redirect_to root_path if @item.buyer.present? || user_signed_in? && current_user.id == @item.user.id
   end
 end
